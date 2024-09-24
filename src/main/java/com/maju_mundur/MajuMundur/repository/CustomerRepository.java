@@ -5,7 +5,4 @@ import com.maju_mundur.MajuMundur.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer, String> {
-    Customer create(Customer customer);
-    Customer getById(String id);
-
 }
