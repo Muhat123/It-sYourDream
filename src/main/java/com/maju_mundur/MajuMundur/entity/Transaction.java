@@ -29,6 +29,7 @@ public class Transaction {
     private Customer customer;
 
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TranscationDetail> transactionDetails;
+    private List<TransactionDetail> transactionDetails;
 
+    private String paymentUrl;
 }

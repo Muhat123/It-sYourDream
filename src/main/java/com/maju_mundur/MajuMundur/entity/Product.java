@@ -24,4 +24,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
+
+    private int quantity;
 }

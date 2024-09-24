@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "m_transactions")
-public class TranscationDetail {
+public class TransactionDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,6 +25,9 @@ public class TranscationDetail {
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
+
+
+    private Integer quantity;
 
 
 }
