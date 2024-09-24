@@ -14,5 +14,5 @@ public interface CustomerService {
 
     void deleteById(String id);
 
-    void updateStatusById(String id);
+    void updateById(String id, CustomerRequest customer);
 }

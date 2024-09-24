@@ -14,5 +14,5 @@ public interface ProductService {
 
     void deleteById(String id);
 
-    void updateStatusById(String id);
+    void updateById(String id, ProductRequest product);
 }

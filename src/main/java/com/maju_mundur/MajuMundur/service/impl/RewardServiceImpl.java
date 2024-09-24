@@ -62,14 +62,19 @@ public class RewardServiceImpl implements RewardService {
     }
 
     @Override
-    public void updateStatusById(String id) {
-        // Mencari reward berdasarkan ID dan memperbarui atribut jika perlu
+    public void updateById(String id, RewardRequest rewardRequest) {
+        // Mencari reward berdasarkan ID
         Optional<Reward> rewardOpt = rewardRepository.findById(id);
+
         if (rewardOpt.isPresent()) {
-            Reward reward = rewardOpt.get();
-            // Contoh: mengubah atribut reward jika perlu
-            reward.setPointValue(reward.getPointValue() + 10.0); // Misalnya, menambah nilai poin
-            rewardRepository.save(reward);
+            Reward existingReward = rewardOpt.get();
+
+            // Update fields dari RewardRequest jika ada
+            existingReward.setName(rewardRequest.getName());
+            existingReward.setPointValue(rewardRequest.getPointValue());
+
+            // Simpan perubahan ke repository
+            rewardRepository.save(existingReward);
         } else {
             throw new RuntimeException("Reward not found");
         }

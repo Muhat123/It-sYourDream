@@ -63,14 +63,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateStatusById(String id) {
-        // Mencari produk berdasarkan ID dan memperbarui status atau atribut lainnya
+    public void updateById(String id, ProductRequest productRequest) {
+        // Mencari produk berdasarkan ID
         Optional<Product> productOpt = productRepository.findById(id);
+
         if (productOpt.isPresent()) {
-            Product product = productOpt.get();
-            // Contoh: mengubah atribut produk jika perlu
-            product.setPrice(product.getPrice() + 10.0); // Misalnya, menambah harga produk
-            productRepository.save(product);
+            Product existingProduct = productOpt.get();
+
+            // Update fields dari ProductRequest jika ada
+            existingProduct.setName(productRequest.getName());
+            existingProduct.setPrice(productRequest.getPrice());
+            existingProduct.setDescription(productRequest.getDescription());
+
+            // Simpan perubahan ke repository
+            productRepository.save(existingProduct);
         } else {
             throw new RuntimeException("Product not found");
         }

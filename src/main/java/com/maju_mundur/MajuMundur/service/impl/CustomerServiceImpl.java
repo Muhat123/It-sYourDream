@@ -53,17 +53,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateStatusById(String id) {
+    public void updateById(String id, CustomerRequest customerRequest) {
         Optional<Customer> customerOpt = customerRepository.findById(id);
+
         if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
-            // Misalnya, update status tertentu di sini (tergantung kebutuhan bisnis)
-            customer.setPoints(0); // Contoh: mengubah poin menjadi 0
-            customerRepository.save(customer);
+            Customer existingCustomer = customerOpt.get();
+
+            // Update fields based on CustomerRequest
+            existingCustomer.setName(customerRequest.getName());
+            existingCustomer.setPhone(customerRequest.getPhone());
+            existingCustomer.setEmail(customerRequest.getEmail());
+            existingCustomer.setPoints(customerRequest.getPoints());
+
+            // Save the updated customer back to the repository
+            customerRepository.save(existingCustomer);
         } else {
             throw new RuntimeException("Customer not found");
         }
     }
+
 
     // Helper method to map Customer entity to CustomerResponse DTO
     private CustomerResponse mapToResponse(Customer customer) {

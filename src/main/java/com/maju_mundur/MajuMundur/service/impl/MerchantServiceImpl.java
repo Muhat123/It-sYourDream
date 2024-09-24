@@ -62,14 +62,20 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public void updateStatusById(String id) {
+    public void updateById(String id, MerchantRequest merchantRequest) {
         // Mencari Merchant berdasarkan ID
         Optional<Merchant> merchantOpt = merchantRepository.findById(id);
+
         if (merchantOpt.isPresent()) {
-            Merchant merchant = merchantOpt.get();
-            // Contoh: update status atau atribut lain (misalnya status aktif/non-aktif)
-            // merchant.setStatus("INACTIVE"); // Contoh, sesuaikan dengan struktur entitas
-            merchantRepository.save(merchant);
+            Merchant existingMerchant = merchantOpt.get();
+
+            // Update fields berdasarkan data dari MerchantRequest
+            existingMerchant.setName(merchantRequest.getName());
+            existingMerchant.setEmail(merchantRequest.getEmail());
+            existingMerchant.setPhone(merchantRequest.getPhone());
+
+            // Simpan perubahan ke repository
+            merchantRepository.save(existingMerchant);
         } else {
             throw new RuntimeException("Merchant not found");
         }

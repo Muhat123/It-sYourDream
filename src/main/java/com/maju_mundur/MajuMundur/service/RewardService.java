@@ -14,5 +14,5 @@ public interface RewardService {
 
     void deleteById(String id);
 
-    void updateStatusById(String id);
+    void updateById(String id, RewardRequest reward);
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = ApiUrl.PRODUCT)
 public class ProductController {
+
     private final ProductService productService;
 
     // Create Product
@@ -33,11 +34,11 @@ public class ProductController {
     // Get All Products
     @GetMapping
     public ResponseEntity<CommonResponse<List<ProductResponse>>> getAllProducts() {
-        List<ProductResponse> productResponses = productService.getAll();
+        List<ProductResponse> productList = productService.getAll();
         CommonResponse<List<ProductResponse>> commonResponse = CommonResponse.<List<ProductResponse>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message("Products retrieved successfully!")
-                .data(productResponses)
+                .message("Products fetched successfully!")
+                .data(productList)
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
@@ -48,42 +49,31 @@ public class ProductController {
         ProductResponse productResponse = productService.getProductById(id);
         CommonResponse<ProductResponse> commonResponse = CommonResponse.<ProductResponse>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message("Product retrieved successfully!")
+                .message("Product fetched successfully!")
                 .data(productResponse)
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
 
-    // Update Product
+    // Update Product by ID
     @PutMapping("/{id}")
-    public ResponseEntity<CommonResponse<ProductResponse>> updateProduct(@PathVariable String id, @RequestBody ProductRequest productRequest) {
-        ProductResponse updatedProduct = productService(id, productRequest);
+    public ResponseEntity<CommonResponse<ProductResponse>> updateProductById(
+            @PathVariable String id, @RequestBody ProductRequest productRequest) {
+        productService.updateById(id, productRequest);
         CommonResponse<ProductResponse> commonResponse = CommonResponse.<ProductResponse>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("Product updated successfully!")
-                .data(updatedProduct)
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
 
     // Delete Product by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<CommonResponse<String>> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<CommonResponse<Void>> deleteProductById(@PathVariable String id) {
         productService.deleteById(id);
-        CommonResponse<String> commonResponse = CommonResponse.<String>builder()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .message("Product deleted successfully!")
-                .build();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(commonResponse);
-    }
-
-    // Update Product Status
-    @PutMapping("/{id}/status")
-    public ResponseEntity<CommonResponse<String>> updateProductStatusById(@PathVariable String id) {
-        productService.updateStatusById(id);
-        CommonResponse<String> commonResponse = CommonResponse.<String>builder()
+        CommonResponse<Void> commonResponse = CommonResponse.<Void>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message("Product status updated successfully!")
+                .message("Product deleted successfully!")
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
