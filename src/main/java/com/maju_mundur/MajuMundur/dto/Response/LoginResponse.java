@@ -12,6 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class LoginResponse {
     private String token;
-    private Role role;
+    private Role.UserRole role;
 
 }

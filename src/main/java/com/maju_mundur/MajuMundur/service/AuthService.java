@@ -6,7 +6,9 @@ import com.maju_mundur.MajuMundur.dto.Request.MerchantRequest;
 import com.maju_mundur.MajuMundur.dto.Request.RegisterRequest;
 import com.maju_mundur.MajuMundur.dto.Response.LoginResponse;
 import com.maju_mundur.MajuMundur.dto.Response.RegisterResponse;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AuthService {
 
 

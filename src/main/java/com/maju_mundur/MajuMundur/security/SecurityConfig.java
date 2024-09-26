@@ -25,10 +25,10 @@ public class SecurityConfig {
     private final AuthTokenFilter authTokenFilter;
 
     private final String[] WHITE_LIST_URL = {
-            "/api/auth/**", "/api/products/**","/v3/api-docs/**",        // Whitelist for OpenAPI docs
-            "/swagger-ui/**",         // Whitelist for Swagger UI
-            "/swagger-ui.html",       // Whitelist for Swagger UI main page
-            "/swagger-resources/**",  // Whitelist for Swagger resources
+            "/api/auth/**", "/api/products/**","/v3/api-docs/**","/api/auth/login",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
             "/webjars/**"
     };
 
@@ -56,12 +56,12 @@ public class SecurityConfig {
                     cors.configurationSource(source);
                 })
 
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
-                        .permitAll()
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
                         .anyRequest()
                         .authenticated()
                 )

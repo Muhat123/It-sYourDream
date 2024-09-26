@@ -16,6 +16,7 @@ import com.maju_mundur.MajuMundur.service.CustomerService;
 import com.maju_mundur.MajuMundur.service.MerchantService;
 import com.maju_mundur.MajuMundur.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@ComponentScan
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final CustomerService customerService;
@@ -101,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
                             request.getPassword()
                     )
             );
-
+            System.out.println("User authenticated: " + authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             User user = (User) authentication.getPrincipal();
@@ -110,9 +112,11 @@ public class AuthServiceImpl implements AuthService {
 
             return LoginResponse.builder()
                     .token(token)
-                    .role(user.getRole())
+                    .role(user.getRole().getName())
                     .build();
         } catch (BadCredentialsException e) {
+            System.out.println("Login failed for user: " + request.getUsername());
+            System.out.println("Error: " + e.getMessage());
             throw new OurException("Username or Password Invalid");
         }
     }

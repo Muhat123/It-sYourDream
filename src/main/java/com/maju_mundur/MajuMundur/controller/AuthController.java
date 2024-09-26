@@ -7,6 +7,7 @@ import com.maju_mundur.MajuMundur.dto.Request.RegisterRequest;
 import com.maju_mundur.MajuMundur.dto.Response.CommonResponse;
 import com.maju_mundur.MajuMundur.dto.Response.LoginResponse;
 import com.maju_mundur.MajuMundur.dto.Response.RegisterResponse;
+import com.maju_mundur.MajuMundur.exception.OurException;
 import com.maju_mundur.MajuMundur.service.AuthService;
 import com.maju_mundur.MajuMundur.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -44,17 +45,32 @@ public class AuthController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+
     @PostMapping("/login")
     public ResponseEntity<CommonResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
-        LoginResponse login = authService.login(loginRequest);
-        CommonResponse<LoginResponse> response = CommonResponse.<LoginResponse>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("Login Success")
-                .data(Optional.of(login))
-                .build();
-
-        return ResponseEntity.ok(response);
-
+        try {
+            LoginResponse loginResponse = authService.login(loginRequest);
+            CommonResponse<LoginResponse> response = CommonResponse.<LoginResponse>builder()
+                    .statusCode(HttpStatus.OK.value())
+                    .message("Login Success")
+                    .data(Optional.of(loginResponse))
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (OurException e) {
+            CommonResponse<LoginResponse> errorResponse = CommonResponse.<LoginResponse>builder()
+                    .statusCode(HttpStatus.UNAUTHORIZED.value())
+                    .message(e.getMessage())
+                    .data(Optional.empty())
+                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        } catch (Exception e) {
+            CommonResponse<LoginResponse> errorResponse = CommonResponse.<LoginResponse>builder()
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An error occurred: " + e.getMessage())
+                    .data(Optional.empty())
+                    .build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     private CommonResponse<RegisterResponse> generateRegisterResponse(Integer code, Optional<RegisterResponse> registerResponse) {
