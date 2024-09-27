@@ -4,9 +4,11 @@ import com.maju_mundur.MajuMundur.dto.Request.CustomerRequest;
 import com.maju_mundur.MajuMundur.dto.Response.CustomerResponse;
 import com.maju_mundur.MajuMundur.entity.Customer;
 import com.maju_mundur.MajuMundur.entity.User;
+import com.maju_mundur.MajuMundur.exception.OurException;
 import com.maju_mundur.MajuMundur.repository.CustomerRepository;
 import com.maju_mundur.MajuMundur.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,9 +51,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public String deleteById(String id) {
         Optional<Customer> customerOpt = customerRepository.findById(id);
         customerOpt.ifPresent(customerRepository::delete);
+        return id;
     }
 
     @Override
@@ -59,13 +62,35 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customerOpt = customerRepository.findById(id);
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
-            // Misalnya, update status tertentu di sini (tergantung kebutuhan bisnis)
-            customer.setPoints(0); // Contoh: mengubah poin menjadi 0
+            customer.setPoints(0);
             customerRepository.save(customer);
         } else {
             throw new RuntimeException("Customer not found");
         }
     }
+
+    @Override
+    public CustomerResponse updateCustomerById(CustomerRequest customerRequest) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Customer customer = customerRepository.findByUserId(loggedInUser.getId());
+        if (customer == null) {
+            throw new OurException("Customer not found");
+        }
+        if (customerRequest.getName() != null && !customerRequest.getName().isBlank()) {
+            customer.setName(customerRequest.getName());
+        }
+        if (customerRequest.getPhone() != null && !customerRequest.getPhone().isBlank()) {
+            customer.setPhone(customerRequest.getPhone());
+        }
+        if (customerRequest.getEmail() != null && !customerRequest.getEmail().isBlank()) {
+            customer.setEmail(customerRequest.getEmail());
+        }
+        Customer savedCustomer = customerRepository.save(customer);
+        return mapToResponse(savedCustomer);
+    }
+
+
+
 
     // Helper method to map Customer entity to CustomerResponse DTO
     private CustomerResponse mapToResponse(Customer customer) {

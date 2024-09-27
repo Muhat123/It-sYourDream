@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleService roleService;
 
     @Override
-    public RegisterResponse registerCustomer(RegisterRequest<CustomerRequest> registerRequest){
+    public RegisterResponse registerCustomer(RegisterRequest<CustomerRequest> registerRequest) {
         Role role = roleService.getOrSave(Role.UserRole.CUSTOMER);
 
         User user = User.builder()
@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public RegisterResponse registerMerchant(RegisterRequest<MerchantRequest> registerRequest){
+    public RegisterResponse registerMerchant(RegisterRequest<MerchantRequest> registerRequest) {
         Role role = roleService.getOrSave(Role.UserRole.MERCHANT);
 
         User user = User.builder()
@@ -120,5 +120,6 @@ public class AuthServiceImpl implements AuthService {
             throw new OurException("Username or Password Invalid");
         }
     }
+
 
 }

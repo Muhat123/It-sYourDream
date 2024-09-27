@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @GetMapping("/allproducts")
-    @PreAuthorize("hasRole('MERCHANT') or hasRole('CUSTOMER')")
+//    @PreAuthorize("hasRole('MERCHANT') or hasRole('CUSTOMER')")
     public ResponseEntity<CommonResponse<List<ProductResponse>>> getAllProducts(){
         List<ProductResponse> productResponseList = productService.getAllProducts();
         CommonResponse<List<ProductResponse>> response = generateProductResponseList(HttpStatus.OK.value(), "Success get All Products", Optional.of(productResponseList));

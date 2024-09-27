@@ -16,7 +16,9 @@ public interface CustomerService {
 
     CustomerResponse getCustomerById(String id);
 
-    void deleteById(String id);
+    String deleteById(String id);
 
     void updateStatusById(String id);
+
+    CustomerResponse updateCustomerById(CustomerRequest customerRequest);
 }
