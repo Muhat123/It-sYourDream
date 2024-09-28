@@ -1,0 +1,11 @@
+facing problem
+1. terkena constraints di ADMIN, solusinya adalah dengan menambah constraints
+    ALTER TABLE m_role DROP CONSTRAINT m_role_name_check;
+
+    ALTER TABLE m_role ADD CONSTRAINT m_role_name_check
+    CHECK (name IN ('MERCHANT', 'CUSTOMER', 'ADMIN'));
+2. Terkena constraint misal merchant dihapus, produk tidak ikut terhapus
+   Solusinya adalah, menambahkan ini:
+    @OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL, orphanRemoval = true)
+       private List<Product> products = new ArrayList<>();
+   di entity merchant, ternyata tetap harus menambahkan relasi products
