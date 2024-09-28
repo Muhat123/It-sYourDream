@@ -20,4 +20,6 @@ public class TransactionResponse {
     private String customerId;
     private List<TransactionDetailResponse> transactionDetails;
     private String paymentUrl;
+    private Double pointPerTransaction;
+    private Double totalAmount;
 }

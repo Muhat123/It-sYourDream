@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
                 .name(customerRequest.getName())
                 .user(user)
                 .phone(customerRequest.getPhone())
-                .points(0)
+                .points(0.0)
                 .build();
         customerService.create(customer, user);
         return RegisterResponse.builder()

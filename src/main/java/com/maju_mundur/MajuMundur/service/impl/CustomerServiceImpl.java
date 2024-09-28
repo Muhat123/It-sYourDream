@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
             // Misalnya, update status tertentu di sini (tergantung kebutuhan bisnis)
-            customer.setPoints(0); // Contoh: mengubah poin menjadi 0
+            customer.setPoints(0.0); // Contoh: mengubah poin menjadi 0
             customerRepository.save(customer);
         } else {
             throw new RuntimeException("Customer not found");
