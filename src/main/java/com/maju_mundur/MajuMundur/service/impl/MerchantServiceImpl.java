@@ -36,8 +36,6 @@ public class MerchantServiceImpl implements MerchantService {
     public List<MerchantResponse> getAll() {
         // Mengambil semua Merchant dari database
         List<Merchant> merchants = merchantRepository.findAll();
-
-        // Mengubah List<Merchant> menjadi List<MerchantResponse>
         return merchants.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
