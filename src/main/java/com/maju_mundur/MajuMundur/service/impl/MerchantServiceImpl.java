@@ -4,9 +4,11 @@ import com.maju_mundur.MajuMundur.dto.Request.MerchantRequest;
 import com.maju_mundur.MajuMundur.dto.Response.MerchantResponse;
 import com.maju_mundur.MajuMundur.entity.Merchant;
 import com.maju_mundur.MajuMundur.entity.User;
+import com.maju_mundur.MajuMundur.exception.OurException;
 import com.maju_mundur.MajuMundur.repository.MerchantRepository;
 import com.maju_mundur.MajuMundur.service.MerchantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +36,6 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public List<MerchantResponse> getAll() {
-        // Mengambil semua Merchant dari database
         List<Merchant> merchants = merchantRepository.findAll();
         return merchants.stream()
                 .map(this::mapToResponse)
@@ -43,33 +44,51 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public MerchantResponse getMerchantById(String id) {
-        // Mencari Merchant berdasarkan ID
         Optional<Merchant> merchantOpt = merchantRepository.findById(id);
 
-        // Jika Merchant ditemukan, ubah menjadi response
         return merchantOpt.map(this::mapToResponse)
                 .orElseThrow(() -> new RuntimeException("Merchant not found"));
     }
 
     @Override
     public void deleteById(String id) {
-        // Mencari Merchant berdasarkan ID dan menghapusnya
         Optional<Merchant> merchantOpt = merchantRepository.findById(id);
         merchantOpt.ifPresent(merchantRepository::delete);
     }
 
     @Override
     public void updateStatusById(String id) {
-        // Mencari Merchant berdasarkan ID
         Optional<Merchant> merchantOpt = merchantRepository.findById(id);
         if (merchantOpt.isPresent()) {
             Merchant merchant = merchantOpt.get();
-            // Contoh: update status atau atribut lain (misalnya status aktif/non-aktif)
-            // merchant.setStatus("INACTIVE"); // Contoh, sesuaikan dengan struktur entitas
             merchantRepository.save(merchant);
         } else {
             throw new RuntimeException("Merchant not found");
         }
+    }
+
+    @Override
+    public MerchantResponse updateMerchantById(MerchantRequest merchantRequest){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Merchant merchant = merchantRepository.findByUserId(loggedInUser.getId());
+        if (merchant == null) {
+            throw new OurException("Merchant not found");
+        }
+        if (!merchant.getId().equals(merchantRequest.getId())) {
+            throw new OurException("Unauthorized access: You can only update your own merchant data");
+        }
+        if (!merchantRequest.getName().isBlank()) {
+            merchant.setName(merchantRequest.getName());
+        }
+        if (!merchantRequest.getEmail().isBlank()) {
+            merchant.setEmail(merchantRequest.getEmail());
+        }
+        if (!merchantRequest.getPhone().isBlank()) {
+            merchant.setPhone(merchantRequest.getPhone());
+        }
+        Merchant savedMerchant = merchantRepository.save(merchant);
+
+        return mapToResponse(savedMerchant);
     }
 
     // Helper method to map Merchant entity to MerchantResponse DTO

@@ -18,4 +18,6 @@ public interface MerchantService {
     void deleteById(String id);
 
     void updateStatusById(String id);
+
+    MerchantResponse updateMerchantById(MerchantRequest merchantRequest);
 }
