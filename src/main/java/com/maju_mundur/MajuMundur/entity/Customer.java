@@ -23,7 +23,7 @@ public class Customer {
 
     private String email;
 
-    private Integer points;
+    private Double points;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")

@@ -16,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,23 +29,30 @@ public class TransactionServiceImpl implements TransactionService {
     private final ProductRepository productRepository;
     private final TransactionDetailRepository transactionDetailRepository;
 
-    private TransactionResponse generateTransactionResponse(Transaction transaction) {
+    private TransactionResponse generateTransactionResponse(Transaction transaction, Customer customer) {
         List<TransactionDetailResponse> transactionDetailResponseList = new ArrayList<>();
         List<TransactionDetail> transactionDetailList = transaction.getTransactionDetails();
-        for (int i = 0; i < transactionDetailList.size(); i++) {
+        int i;
+        double totalAmount = 0;
+        for (TransactionDetail transactionDetail : transactionDetailList) {
             TransactionDetailResponse transactionDetailResponse = TransactionDetailResponse.builder()
-                    .id(transactionDetailList.get(i).getId())
-                    .quantity(transactionDetailList.get(i).getQuantity())
-                    .price(transactionDetailList.get(i).getProduct().getPrice())
-                    .productId(transactionDetailList.get(i).getProduct().getId())
+                    .id(transactionDetail.getId())
+                    .name(transactionDetail.getProduct().getName())
+                    .quantity(transactionDetail.getQuantity())
+                    .price(transactionDetail.getProduct().getPrice())
+                    .productId(transactionDetail.getProduct().getId())
                     .build();
             transactionDetailResponseList.add(transactionDetailResponse);
+            totalAmount += transactionDetail.getQuantity() * transactionDetail.getProduct().getPrice();
         }
         return TransactionResponse.builder()
                 .id(transaction.getId())
                 .transactionDate(transaction.getTransactionDate())
-                .customerId(transaction.getCustomer().getId())
+                .customerId(customer.getId())
                 .transactionDetails(transactionDetailResponseList)
+                .transactionDate(LocalDateTime.now())
+                .pointPerTransaction(transaction.getPointPerTransaction())
+                .totalAmount(totalAmount)
                 .build();
     }
 
@@ -53,46 +62,66 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponse createTransaction(TransactionRequest transactionRequest) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Customer customer = customerRepository.findByUserId(loggedInUser.getId());
+
+        // Initialize Transaction object but don't save it yet.
         Transaction transaction = Transaction.builder()
                 .customer(customer)
                 .build();
-        transactionRepository.save(transaction);
 
         List<TransactionDetailRequest> transactionDetailRequestList = transactionRequest.getTransactionDetailRequestList();
         List<TransactionDetail> transactionDetails = new ArrayList<>();
 
         double totalAmount = 0;
-        for (TransactionDetailRequest transactionDetailRequest : transactionDetailRequestList) {
-            Product product = productRepository.findById(transactionDetailRequest.getProductId()).orElseThrow(() -> new OurException("Product tidak ada"));
 
-            if (product.getQuantity() < transactionDetailRequest.getQuantity()){
-                throw new OurException("Stok barang tidak mencukup untuk transaksi, sisa: " + product.getQuantity());
+        // Process all TransactionDetails and accumulate the total amount
+        for (TransactionDetailRequest transactionDetailRequest : transactionDetailRequestList) {
+            Product product = productRepository.findById(transactionDetailRequest.getProductId())
+                    .orElseThrow(() -> new OurException("Product not found"));
+
+            if (product.getQuantity() < transactionDetailRequest.getQuantity()) {
+                throw new OurException("Insufficient stock, remaining: " + product.getQuantity());
             }
+
+            // Create TransactionDetail but do NOT save it yet
             TransactionDetail transactionDetail = TransactionDetail.builder()
-                    .transaction(transaction)
+                    .transaction(transaction)  // Link it to the parent Transaction
                     .product(product)
                     .quantity(transactionDetailRequest.getQuantity())
                     .build();
 
             transactionDetails.add(transactionDetail);
-            transactionDetailRepository.save(transactionDetail);
             product.setQuantity(product.getQuantity() - transactionDetailRequest.getQuantity());
             productRepository.save(product);
 
+            // Accumulate total amount
             totalAmount += transactionDetailRequest.getQuantity() * product.getPrice();
-
         }
 
+        // Set details and total amount for the Transaction before saving
         transaction.setTransactionDetails(transactionDetails);
-        transactionRepository.save(transaction);
-        return generateTransactionResponse(transaction);
+        transaction.setCustomer(customer);
+        transaction.setPointPerTransaction(0.1); // Example point logic
+        transaction.setTransactionDate(LocalDateTime.now());
+        transaction.setTotalAmount(totalAmount);
 
+        // Save the Transaction (this will cascade save the TransactionDetails as well)
+        transactionRepository.save(transaction);
+
+        // Increment customer points
+        customer.setPoints(customer.getPoints() + 0.1);
+        customerRepository.save(customer);
+
+        // Generate response
+        return generateTransactionResponse(transaction, customer);
     }
+
 
     @Override
     public TransactionResponse getTransactionById(String transactionId) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Customer customer = customerRepository.findByUserId(loggedInUser.getId());
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new OurException("Transaksi tidak ditemukan"));
-        return generateTransactionResponse(transaction);
+        return generateTransactionResponse(transaction, customer);
     }
 
     @Override
@@ -102,7 +131,7 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> allTransactionById =  transactionRepository.findTransactionByCustomerId(customer.getId());
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
         for (Transaction transaction : allTransactionById) {
-            transactionResponseList.add(generateTransactionResponse(transaction));
+            transactionResponseList.add(generateTransactionResponse(transaction, customer));
         }
         return transactionResponseList;
     }

@@ -53,7 +53,7 @@ public class MerchantController {
     }
 
     @GetMapping("/allmerchants")
-    @PreAuthorize("hasRole('MERCHANT') or hasRole('CUSTOMER')")
+//    @PreAuthorize("hasRole('MERCHANT') or hasRole('CUSTOMER')")
     public ResponseEntity<CommonResponse<List<MerchantResponse>>> getAllMerchant(){
         List<MerchantResponse> merchantResponseList = merchantService.getAll();
         CommonResponse<List<MerchantResponse>> response = generateToCustomerResponse(HttpStatus.FOUND.value(), "Success get all merchants", Optional.of(merchantResponseList));

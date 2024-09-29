@@ -74,6 +74,9 @@ public class MerchantServiceImpl implements MerchantService {
         if (merchant == null) {
             throw new OurException("Merchant not found");
         }
+        if (!merchant.getId().equals(merchantRequest.getId())) {
+            throw new OurException("Unauthorized access: You can only update your own merchant data");
+        }
         if (!merchantRequest.getName().isBlank()) {
             merchant.setName(merchantRequest.getName());
         }

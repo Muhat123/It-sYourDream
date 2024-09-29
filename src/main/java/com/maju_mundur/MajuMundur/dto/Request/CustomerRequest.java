@@ -15,6 +15,6 @@ public class CustomerRequest {
     private String name;
     private String phone;
     private String email;
-    private Integer points;
+    private Double points;
     private User user;
 }

@@ -26,7 +26,7 @@ public class Product {
     private Double price;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
     @NotNull(message = "Quantity wajib dimasukan, isikan 0 jika stock belum ada")

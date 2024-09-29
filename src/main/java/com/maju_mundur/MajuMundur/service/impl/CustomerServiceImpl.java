@@ -4,7 +4,6 @@ import com.maju_mundur.MajuMundur.dto.Request.CustomerRequest;
 import com.maju_mundur.MajuMundur.dto.Response.CustomerResponse;
 import com.maju_mundur.MajuMundur.entity.Customer;
 import com.maju_mundur.MajuMundur.entity.User;
-import com.maju_mundur.MajuMundur.exception.OurException;
 import com.maju_mundur.MajuMundur.repository.CustomerRepository;
 import com.maju_mundur.MajuMundur.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     public String deleteById(String id) {
         Optional<Customer> customerOpt = customerRepository.findById(id);
         customerOpt.ifPresent(customerRepository::delete);
-        return id;
+        return "Successfully deleted " + id;
     }
 
     @Override
@@ -62,7 +62,8 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customerOpt = customerRepository.findById(id);
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
-            customer.setPoints(0);
+            // Misalnya, update status tertentu di sini (tergantung kebutuhan bisnis)
+            customer.setPoints(0.0); // Contoh: mengubah poin menjadi 0
             customerRepository.save(customer);
         } else {
             throw new RuntimeException("Customer not found");
@@ -73,24 +74,36 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse updateCustomerById(CustomerRequest customerRequest) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Customer customer = customerRepository.findByUserId(loggedInUser.getId());
-        if (customer == null) {
-            throw new OurException("Customer not found");
+        if (!Objects.equals(customer.getId(), customerRequest.getId())) {
+            throw new RuntimeException("Unauthorized access");
         }
-        if (customerRequest.getName() != null && !customerRequest.getName().isBlank()) {
+
+        //changing name
+        if (customerRequest.getName().isBlank()){
+            customer.setName(customer.getName());
+        }else {
             customer.setName(customerRequest.getName());
         }
-        if (customerRequest.getPhone() != null && !customerRequest.getPhone().isBlank()) {
-            customer.setPhone(customerRequest.getPhone());
-        }
-        if (customerRequest.getEmail() != null && !customerRequest.getEmail().isBlank()) {
+
+        //changing email
+        if (customerRequest.getEmail().isBlank()){
+            customer.setEmail(customer.getEmail());
+        }else {
             customer.setEmail(customerRequest.getEmail());
         }
+
+        //changing phone
+        if (customerRequest.getPhone().isBlank()){
+            customer.setPhone(customer.getPhone());
+        }else {
+            customer.setPhone(customerRequest.getPhone());
+        }
+
+        //saving the updated customer
         Customer savedCustomer = customerRepository.save(customer);
+
         return mapToResponse(savedCustomer);
     }
-
-
-
 
     // Helper method to map Customer entity to CustomerResponse DTO
     private CustomerResponse mapToResponse(Customer customer) {

@@ -22,6 +22,7 @@ public class Role {
     public enum UserRole{
         MERCHANT,
         CUSTOMER,
+        ADMIN
 
     }
 }

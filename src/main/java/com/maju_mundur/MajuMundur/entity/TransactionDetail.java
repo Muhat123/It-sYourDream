@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "m_transactions")
+@Table(name = "m_transaction_detail")
 public class TransactionDetail {
 
     @Id
@@ -28,6 +28,7 @@ public class TransactionDetail {
 
 
     private Integer quantity;
+
 
 
 }

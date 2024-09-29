@@ -32,4 +32,7 @@ public class Transaction {
     private List<TransactionDetail> transactionDetails;
 
     private String paymentUrl;
+
+    private Double PointPerTransaction;
+    private Double totalAmount;
 }
