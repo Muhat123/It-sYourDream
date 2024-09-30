@@ -1,6 +1,7 @@
 package com.maju_mundur.MajuMundur.service;
 
 import com.maju_mundur.MajuMundur.dto.Request.RewardRequest;
+import com.maju_mundur.MajuMundur.dto.Response.RedeemResponse;
 import com.maju_mundur.MajuMundur.dto.Response.RewardResponse;
 import org.springframework.stereotype.Repository;
 

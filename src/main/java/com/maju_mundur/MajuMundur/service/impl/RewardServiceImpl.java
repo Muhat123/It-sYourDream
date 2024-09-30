@@ -1,10 +1,13 @@
 package com.maju_mundur.MajuMundur.service.impl;
 
 import com.maju_mundur.MajuMundur.dto.Request.RewardRequest;
+import com.maju_mundur.MajuMundur.dto.Response.RedeemResponse;
 import com.maju_mundur.MajuMundur.dto.Response.RewardResponse;
+import com.maju_mundur.MajuMundur.entity.Customer;
 import com.maju_mundur.MajuMundur.entity.Reward;
 import com.maju_mundur.MajuMundur.entity.User;
 import com.maju_mundur.MajuMundur.exception.OurException;
+import com.maju_mundur.MajuMundur.repository.CustomerRepository;
 import com.maju_mundur.MajuMundur.repository.RewardRepository;
 import com.maju_mundur.MajuMundur.service.RewardService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RewardServiceImpl implements RewardService {
     private final RewardRepository rewardRepository;
+    private final CustomerRepository customerRepository;
 
     private RewardResponse generateToResponse(Reward reward) {
         return RewardResponse.builder()
