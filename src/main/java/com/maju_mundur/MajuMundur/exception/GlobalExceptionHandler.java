@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OurException.class)
     public ResponseEntity<CommonResponse<String>> handleOurException(OurException ex) {
         CommonResponse<String> response = CommonResponse.<String>builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())  // Atau gunakan HttpStatus.UNPROCESSABLE_ENTITY (422)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

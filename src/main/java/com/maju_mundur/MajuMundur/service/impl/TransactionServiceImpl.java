@@ -129,6 +129,9 @@ public class TransactionServiceImpl implements TransactionService {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Customer customer = customerRepository.findByUserId(loggedInUser.getId());
         List<Transaction> allTransactionById =  transactionRepository.findTransactionByCustomerId(customer.getId());
+        if (allTransactionById.isEmpty()) {
+            throw new OurException("No transaction with this customer id " + customer.getId());
+        }
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
         for (Transaction transaction : allTransactionById) {
             transactionResponseList.add(generateTransactionResponse(transaction, customer));

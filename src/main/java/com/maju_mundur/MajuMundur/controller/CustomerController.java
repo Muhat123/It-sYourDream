@@ -60,6 +60,7 @@ public class CustomerController {
     }
 
     @GetMapping("/allcustomers")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse<List<CustomerResponse>>> getAllCustomers(){
         List<CustomerResponse> customerResponse = customerService.getAll();
         CommonResponse<List<CustomerResponse>> commonResponse = generateToCustomerResponse(HttpStatus.OK.value(),"Success get all customers", Optional.of(customerResponse));
