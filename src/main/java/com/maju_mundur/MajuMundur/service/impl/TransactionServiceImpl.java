@@ -116,6 +116,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         String paymentUrl = payTransaction(transaction.getId(), totalAmount, transactionDetails);
         transaction.setPaymentUrl(paymentUrl);
+
         transactionRepository.save(transaction);
 
         // Increment customer points
@@ -205,5 +206,28 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
+    public void setTransactionStatus(Map<String, Object> notification) {
+        String orderId = (String) notification.get("order_id");
+        String transactionStatus = (String) notification.get("transaction_status");
+
+        Transaction transaction = transactionRepository.findById(orderId)
+                .orElseThrow(() -> new OurException("Transaction not found with id: " + orderId));
+
+            if ("capture".equals(transactionStatus) || "settlement".equals(transactionStatus)) {
+                transaction.setStatus(Transaction.Status.PAID);
+            } else if ("deny".equals(transactionStatus) || "cancel".equals(transactionStatus) || "expire".equals(transactionStatus)) {
+                transaction.setStatus(Transaction.Status.CANCELLED);
+                for (TransactionDetail detail : transaction.getTransactionDetails()) {
+                    Product product = detail.getProduct();
+                    product.setQuantity(product.getQuantity() + detail.getQuantity());
+                    productRepository.save(product);
+                }
+            } else {
+                throw new OurException("Failed to get transaction status from Midtrans");
+            }
+        transactionRepository.save(transaction);
+
+
+    }
 
 }

@@ -35,4 +35,30 @@ public class Transaction {
 
     private Double PointPerTransaction;
     private Double totalAmount;
+
+    private Status status;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Jakarta")
+    private LocalDateTime paidAt;
+
+    public enum Status {
+        UNPAID,
+        PAID,
+        CANCELLED
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (status == null) {
+            status = Status.UNPAID;
+            transactionDate = LocalDateTime.now();        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        if (status == Status.PAID) {
+            paidAt = LocalDateTime.now();
+        }
+    }
+
 }

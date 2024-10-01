@@ -13,4 +13,7 @@ import java.util.List;
 public interface TransactionDetailRepository extends JpaRepository<TransactionDetail, String> {
     @Query("SELECT DISTINCT td.transaction.customer FROM TransactionDetail td WHERE td.product.merchant.id = :merchantId")
     List<Customer> findCustomersWhoBoughtFromMerchant(@Param("merchantId") String merchantId);
+
+    @Query(value = "SELECT * FROM m_transaction_detail WHERE transaction_id = :id", nativeQuery = true)
+    List<TransactionDetail> findByTransactionId(@Param("id")String id);
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,6 +45,20 @@ public class TransactionController {
         TransactionResponse transactionResponse = transactionService.getTransactionById(id);
         CommonResponse<TransactionResponse> commonResponse = generateTransactionResponse(HttpStatus.OK.value(), "Success get Transaction", Optional.of(transactionResponse));
         return ResponseEntity.ok(commonResponse);
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/notification")
+    public ResponseEntity<String> handleNotification(@RequestBody Map<String, Object> notification) {
+        try {
+            System.out.println("Notification received: " + notification);
+            transactionService.setTransactionStatus(notification);
+            return ResponseEntity.ok("Transaction status processed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to process transaction status: " + e.getMessage());
+        }
     }
 
 }
