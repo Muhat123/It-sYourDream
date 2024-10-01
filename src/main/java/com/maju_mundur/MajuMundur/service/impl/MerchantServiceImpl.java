@@ -1,11 +1,14 @@
 package com.maju_mundur.MajuMundur.service.impl;
 
 import com.maju_mundur.MajuMundur.dto.Request.MerchantRequest;
+import com.maju_mundur.MajuMundur.dto.Response.CustomerResponse;
 import com.maju_mundur.MajuMundur.dto.Response.MerchantResponse;
+import com.maju_mundur.MajuMundur.entity.Customer;
 import com.maju_mundur.MajuMundur.entity.Merchant;
 import com.maju_mundur.MajuMundur.entity.User;
 import com.maju_mundur.MajuMundur.exception.OurException;
 import com.maju_mundur.MajuMundur.repository.MerchantRepository;
+import com.maju_mundur.MajuMundur.repository.TransactionDetailRepository;
 import com.maju_mundur.MajuMundur.service.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MerchantServiceImpl implements MerchantService {
     private final MerchantRepository merchantRepository;
+    private final TransactionDetailRepository transactionDetailRepository;
 
     @Override
     public MerchantResponse create(MerchantRequest merchantRequest, User user) {
@@ -91,6 +95,16 @@ public class MerchantServiceImpl implements MerchantService {
         return mapToResponse(savedMerchant);
     }
 
+    @Override
+    public List<CustomerResponse> getCustomersWhoBoughtFromMerchant(String merchantId) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Merchant merchant = merchantRepository.findByUserId(loggedInUser.getId());
+        if(merchant == null){
+            throw new OurException("Merchant not found");
+        }
+        return transactionDetailRepository.findCustomersWhoBoughtFromMerchant(merchantId).stream().map(this::mapToCustomerResponse).collect(Collectors.toList());
+    }
+
     // Helper method to map Merchant entity to MerchantResponse DTO
     private MerchantResponse mapToResponse(Merchant merchant) {
         return MerchantResponse.builder()
@@ -98,6 +112,14 @@ public class MerchantServiceImpl implements MerchantService {
                 .name(merchant.getName())
                 .email(merchant.getEmail())
                 .phone(merchant.getPhone())
+                .build();
+    }
+
+    private CustomerResponse mapToCustomerResponse(Customer customer) {
+        return CustomerResponse.builder()
+                .id(customer.getId())
+                .name(customer.getName())
+                .email(customer.getEmail())
                 .build();
     }
 }

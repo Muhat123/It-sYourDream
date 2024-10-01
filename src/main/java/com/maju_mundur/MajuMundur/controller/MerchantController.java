@@ -59,4 +59,12 @@ public class MerchantController {
         CommonResponse<List<MerchantResponse>> response = generateToCustomerResponse(HttpStatus.FOUND.value(), "Success get all merchants", Optional.of(merchantResponseList));
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/{merchantId}/customers")
+    @PreAuthorize("hasRole('MERCHANT')")
+    public ResponseEntity<CommonResponse<List<CustomerResponse>>> getCustomersWhoBoughtFromMerchant(@PathVariable String merchantId){
+        List<CustomerResponse> customerResponseList = merchantService.getCustomersWhoBoughtFromMerchant(merchantId);
+        CommonResponse<List<CustomerResponse>> response = generateToCustomerResponse(HttpStatus.OK.value(), "Success get customers who bought from merchant with id " + merchantId, Optional.of(customerResponseList));
+        return ResponseEntity.ok().body(response);
+    }
 }

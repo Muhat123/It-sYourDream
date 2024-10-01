@@ -1,7 +1,9 @@
 package com.maju_mundur.MajuMundur.service;
 
 import com.maju_mundur.MajuMundur.dto.Request.MerchantRequest;
+import com.maju_mundur.MajuMundur.dto.Response.CustomerResponse;
 import com.maju_mundur.MajuMundur.dto.Response.MerchantResponse;
+import com.maju_mundur.MajuMundur.entity.Customer;
 import com.maju_mundur.MajuMundur.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +22,6 @@ public interface MerchantService {
     void updateStatusById(String id);
 
     MerchantResponse updateMerchantById(MerchantRequest merchantRequest);
+
+    List<CustomerResponse> getCustomersWhoBoughtFromMerchant(String merchantId);
 }
