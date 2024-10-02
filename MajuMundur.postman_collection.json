@@ -1,0 +1,987 @@
+{
+	"info": {
+		"_postman_id": "c533feb0-487d-4aa1-b074-5d9246eb56a0",
+		"name": "MajuMundur",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36706780"
+	},
+	"item": [
+		{
+			"name": "ByMerchant",
+			"item": [
+				{
+					"name": "create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTM5Mjg4NTMsImlhdCI6MTcyNzUyODg1Mywicm9sZSI6Ik1FUkNIQU5UIn0.DUAN4gqL0NnqDnqu_lFjC7agQk35LXbkQwP-FX6ypGw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Keyboard Gaming Gamen Keyboard III\",\n    \"price\": 250000.00,\n    \"description\": \"Keyboard Gaming untuk kebutuhan game kamu yang sangat hectic\",\n    \"quantity\": 25\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/product",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTM5MzA3MTYsImlhdCI6MTcyNzUzMDcxNiwicm9sZSI6Ik1FUkNIQU5UIn0.Uvdi5pzxP67QoYH8z-yuCMTEWVY9BePQQj0AoMqCneQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"46e34196-e175-4026-9a30-e79dbc75d930\",\n    \"name\": \"Tumblr Enigma\",\n    \"price\": 45000.00,\n    \"description\": \"Tumblr Enigma untuk minum\",\n    \"quantity\": 200\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/product/13c102de-ecc6-4c52-aab4-00aac07b471d",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"13c102de-ecc6-4c52-aab4-00aac07b471d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProductById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTM3NjMxMjgsImlhdCI6MTcyNzM2MzEyOCwicm9sZSI6Ik1FUkNIQU5UIn0.mUMujyyDavic3qELRNBfaBK6sS78kbxfPmg8Uy946jc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/46e34196-e175-4026-9a30-e79dbc75d930",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"46e34196-e175-4026-9a30-e79dbc75d930"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMyProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI2YTkyMTI2YS1hMzEwLTQ4MjktYTEzMi0wN2Q2MzNmNWQ1ZmYiLCJleHAiOjE4MTM3NjM1MjgsImlhdCI6MTcyNzM2MzUyOCwicm9sZSI6Ik1FUkNIQU5UIn0.AbLOkkL0M6Rrx-IueeVPVVRCCEcaJVX7LdJW8lVdfJk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/myproducts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"myproducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProductsByMerchantId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1OWQ4NmViNC1kNDFmLTRjOGEtOWExMS0wZDQ4NWM0NzliNDEiLCJleHAiOjE4MTM3NjM4MzAsImlhdCI6MTcyNzM2MzgzMCwicm9sZSI6IkNVU1RPTUVSIn0.hqkoOAFvP6su_YtpyFu_kAntwgQLHaZGsdRcUTp5TlI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/myproducts/3e629132-8871-42e1-be74-b96494e10fe0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"myproducts",
+								"3e629132-8871-42e1-be74-b96494e10fe0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI2YTkyMTI2YS1hMzEwLTQ4MjktYTEzMi0wN2Q2MzNmNWQ1ZmYiLCJleHAiOjE4MTM3NjQzMzksImlhdCI6MTcyNzM2NDMzOSwicm9sZSI6Ik1FUkNIQU5UIn0.a-Z-72ARf85Rnsa8ikh2wbfy7O6SWdNhei4PHEQLdsA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/13c102de-ecc6-4c52-aab4-00aac07b471d",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"13c102de-ecc6-4c52-aab4-00aac07b471d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateMerchant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1ZTJmNDE1MC0zNTYxLTRiZmItOWZiMi1iZTI2ZDE0NzM1ZTkiLCJleHAiOjE4MTM5MTE4NTUsImlhdCI6MTcyNzUxMTg1NSwicm9sZSI6Ik1FUkNIQU5UIn0.uLV7UeDZt34AnA_7DM6kiyepgns2TaN-JnAnhSLVgLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"8bc4d4a4-019a-4a94-b361-ceab7575790d\",\n    \"name\": \"Joko Tarub\",\n    \"phone\": \"07864657588\",\n    \"email\" : \"joko@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/merchant",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"merchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMerchantById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1ZTJmNDE1MC0zNTYxLTRiZmItOWZiMi1iZTI2ZDE0NzM1ZTkiLCJleHAiOjE4MTM5MTI1MjksImlhdCI6MTcyNzUxMjUyOSwicm9sZSI6Ik1FUkNIQU5UIn0.DmfFDSAVLsUrOrMG_7elLkqf1gAQxawS7BgrgGAqx7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/merchant/8bc4d4a4-019a-4a94-b361-ceab7575790d",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"merchant",
+								"8bc4d4a4-019a-4a94-b361-ceab7575790d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllMerchant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/merchant/allmerchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"merchant",
+								"allmerchants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMerchantById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/merchant/3e629132-8871-42e1-be74-b96494e10fe0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"merchant",
+								"3e629132-8871-42e1-be74-b96494e10fe0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomersWhoBoughtFromMerchantByMerchantId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTQxNzY2MTgsImlhdCI6MTcyNzc3NjYxOCwicm9sZSI6Ik1FUkNIQU5UIn0.IwTGt332qTast17uYWBZaRCYWUtLo6QvBOm6yfuN6i0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/merchant/3e629132-8871-42e1-be74-b96494e10fe0/customers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"merchant",
+								"3e629132-8871-42e1-be74-b96494e10fe0",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadPoster",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTQyNjkxMjMsImlhdCI6MTcyNzg2OTEyMywicm9sZSI6Ik1FUkNIQU5UIn0.abHiCi6A9QbQUYMm89gp-vz9mgTvytZJJ4xDx5g1WO4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/enigma/Documents/BPD Jogja/gambar/laptop_thinkpad.webp",
+									"disabled": true
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/enigma/Documents/BPD Jogja/gambar/laptop_thinkpad_2.webp"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/api/product/poster/974022ff-f65c-4d48-95c4-7436814d6412",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"poster",
+								"974022ff-f65c-4d48-95c4-7436814d6412"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProductPoster",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/poster/82964d03-e271-4ef6-a753-d0d6f498c8d2_laptop_thinkpad_2.webp",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"poster",
+								"82964d03-e271-4ef6-a753-d0d6f498c8d2_laptop_thinkpad_2.webp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ByCustomer",
+			"item": [
+				{
+					"name": "getProductById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1OWQ4NmViNC1kNDFmLTRjOGEtOWExMS0wZDQ4NWM0NzliNDEiLCJleHAiOjE4MTM3NjMzNTAsImlhdCI6MTcyNzM2MzM1MCwicm9sZSI6IkNVU1RPTUVSIn0.N0ScNQ8Ry6ag2uR1xVV7HDR_W7bN1jSUEzcg00Lc1WU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/46e34196-e175-4026-9a30-e79dbc75d930",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"46e34196-e175-4026-9a30-e79dbc75d930"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProductsByMerchantId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI5MDQ3MThhNS05ODVkLTRiMDItOGFiMi1kOWYxYjRjZmIzOTYiLCJleHAiOjE4MTM3NjM2NjgsImlhdCI6MTcyNzM2MzY2OCwicm9sZSI6Ik1FUkNIQU5UIn0.HeBqBhNoA5217p66W-K7V_2BuCTrSgcqyfJQYyujtU8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/myproducts/9df3c325-3e74-4c06-a558-46f265e8585a",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"myproducts",
+								"9df3c325-3e74-4c06-a558-46f265e8585a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProducts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/product/allproducts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"allproducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTransaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlMzkxNjViNS0zMzQ2LTRiMjQtOGRkZi1lMmFmMmM2Zjg3YmEiLCJleHAiOjE4MTQxOTA5MjMsImlhdCI6MTcyNzc5MDkyMywicm9sZSI6IkNVU1RPTUVSIn0.INtlNoJwkB487uLnYBwYKo88LCKkUCs3RtFME0lCkOU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transactionDetailRequestList\": [\n        // {\n        //     \"productId\": \"46e34196-e175-4026-9a30-e79dbc75d930\",\n        //     \"quantity\": 5\n        // },\n        {\n            \"productId\": \"64f0c368-9916-4a41-a46f-d6967470d425\",\n            \"quantity\": 4\n        }\n       \n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1OWQ4NmViNC1kNDFmLTRjOGEtOWExMS0wZDQ4NWM0NzliNDEiLCJleHAiOjE4MTQwNjc2MTUsImlhdCI6MTcyNzY2NzYxNSwicm9sZSI6IkNVU1RPTUVSIn0.r85yEAUoJPfINzmczGhhZnFRm-xD5km9wIP9kZe3D-I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"customer\",\n    \"email\": \"toko123@example.com\",\n    \"password\": \"toko123\",\n    \"data\": {\n        \"name\": \"Toko Muhat\",\n        \"phone\": \"089648573922\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RedeemReward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlMzkxNjViNS0zMzQ2LTRiMjQtOGRkZi1lMmFmMmM2Zjg3YmEiLCJleHAiOjE4MTQxNTMxMjUsImlhdCI6MTcyNzc1MzEyNSwicm9sZSI6IkNVU1RPTUVSIn0.SRGD3-e5CtjUkxxpqFxzqYjQwXOwGDR2H1gjMsRabFU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\" : \"6c6125e5-8e7d-4df8-92fc-d00404f4e42c\",\n    \"rewardId\" : \"3dd59252-86eb-49ae-98c7-084aa39bcfb6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/redeem",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"redeem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTransactionByCustomerID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlMzkxNjViNS0zMzQ2LTRiMjQtOGRkZi1lMmFmMmM2Zjg3YmEiLCJleHAiOjE4MTQwNzkxNTIsImlhdCI6MTcyNzY3OTE1Miwicm9sZSI6IkNVU1RPTUVSIn0.g6pX_89TMQUtHnvpKUpHJE9G-uAgCnqxyCT9jvBvuK4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transaction/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStatusByMidtrans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic U0ItTWlkLXNlcnZlci0ycGlfaEdLdHMtZUFYZmU1bG5aMU9iVU86",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "CreateCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"pembeli123\",\n    \"email\": \"pembeli123@example.com\",\n    \"password\": \"pembeli123\",\n    \"data\": {\n        \"name\": \"pembeli123\",\n        \"phone\": \"089648573922\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/auth/register/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Merchant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"shop123\",\n    \"email\": \"shop123@gmail.com\",\n    \"password\": \"shop123\",\n    \"data\": {\n        \"name\": \"Joko Kendil\",\n        \"phone\": \"089648573922\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/auth/register/merchant",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"merchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"username\": \"merchantUser\",\n//     \"email\": \"merchant@example.com\",\n//     \"password\": \"securePassword\",\n//     \"data\": {\n//         \"name\": \"Merchant Name\",\n//         \"phone\": \"1234567890\"\n//     }\n// }\n\n// {\n//     \"username\" : \"pembeli123\",\n//     \"password\" : \"pembeli123\"\n// }\n\n\n{\n    \"username\" : \"merchant\",\n    \"password\" : \"merchant\"\n}\n\n// {\n//     \"username\" : \"merchant2\",\n//     \"password\" : \"merchant2\"\n// }\n\n\n// {\n//     \"username\" : \"shop123\",\n//     \"password\" : \"shop123\"\n// }\n\n\n// {\n//     \"username\" : \"admin123\",\n//     \"password\" : \"admin123\"\n// }\n\n// {\n//     \"username\" : \"customer\",\n//     \"password\" : \"customer\"\n// }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ByAdmin",
+			"item": [
+				{
+					"name": "create Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlNjM3ZTFjYy1lMTczLTQwYzMtOGFmNC05ZDE5ZjQ0NWZhZTIiLCJleHAiOjE4MTQwNjg1ODIsImlhdCI6MTcyNzY2ODU4Miwicm9sZSI6IkFETUlOIn0.dfEmA52Wm97RLMmpgVpYfYG4RWOJWo8hDzPNqKDjsUY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Boneka Dudu\",\n    \"pointValue\": 1.2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/reward",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reward"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllRewards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/reward/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reward",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRewardById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/reward/79745059-1107-45b3-aebc-afcf9cd8d58d",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reward",
+								"79745059-1107-45b3-aebc-afcf9cd8d58d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Reward By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlNjM3ZTFjYy1lMTczLTQwYzMtOGFmNC05ZDE5ZjQ0NWZhZTIiLCJleHAiOjE4MTQwMTY3NTQsImlhdCI6MTcyNzYxNjc1NCwicm9sZSI6IkFETUlOIn0.o5wXbj3dlm_v54s_smJjClOqJTHRo4zpPXU3_KomfH0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" :\"79745059-1107-45b3-aebc-afcf9cd8d58d\",\n    \"name\" : \"Goodie Bag spesial Enigma Edition\"\n    // \"pointValue\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/reward",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reward"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlNjM3ZTFjYy1lMTczLTQwYzMtOGFmNC05ZDE5ZjQ0NWZhZTIiLCJleHAiOjE4MTQwODEyNDMsImlhdCI6MTcyNzY4MTI0Mywicm9sZSI6IkFETUlOIn0.WnAjGmOJIzfdEgQxriT8dzB1DlyCGRvDzXqRRsuL8Os",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/reward/d08baadd-f4ad-4e59-be00-569f67029d93",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reward",
+								"d08baadd-f4ad-4e59-be00-569f67029d93"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiJlNjM3ZTFjYy1lMTczLTQwYzMtOGFmNC05ZDE5ZjQ0NWZhZTIiLCJleHAiOjE4MTQwODIyOTMsImlhdCI6MTcyNzY4MjI5Mywicm9sZSI6IkFETUlOIn0.qMxkkXmcdxMSelXHpZre5HNK556WRV7WonU4Oijvpvk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customer/allcustomers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"allcustomers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomerById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNQUpVTVVORFVSQ0xPVEhJTkciLCJzdWIiOiI1OWQ4NmViNC1kNDFmLTRjOGEtOWExMS0wZDQ4NWM0NzliNDEiLCJleHAiOjE4MTQwODI0MDMsImlhdCI6MTcyNzY4MjQwMywicm9sZSI6IkNVU1RPTUVSIn0.aHH4VVIo9HoO9FRzAtVSvwgm1CjWey_6lQcd_Bd5Wrk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customer/6c6125e5-8e7d-4df8-92fc-d00404f4e42c",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"6c6125e5-8e7d-4df8-92fc-d00404f4e42c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
