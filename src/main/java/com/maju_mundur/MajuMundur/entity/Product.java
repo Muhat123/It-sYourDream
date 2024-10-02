@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank(message = "Nama barnag wajib diisi")
+    @NotBlank(message = "Nama barang wajib diisi")
     private String name;
 
     @NotNull(message = "Harga wajib dimasukan, kalau gratis isikan 0")
@@ -31,4 +33,8 @@ public class Product {
     private Merchant merchant;
     @NotNull(message = "Quantity wajib dimasukan, isikan 0 jika stock belum ada")
     private int quantity;
+
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> productPoster;
 }

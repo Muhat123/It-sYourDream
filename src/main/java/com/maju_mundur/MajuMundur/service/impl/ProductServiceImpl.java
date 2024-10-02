@@ -1,17 +1,24 @@
 package com.maju_mundur.MajuMundur.service.impl;
 
 import com.maju_mundur.MajuMundur.dto.Request.ProductRequest;
+import com.maju_mundur.MajuMundur.dto.Response.ImageResponse;
 import com.maju_mundur.MajuMundur.dto.Response.ProductResponse;
+import com.maju_mundur.MajuMundur.entity.Image;
 import com.maju_mundur.MajuMundur.entity.Merchant;
 import com.maju_mundur.MajuMundur.entity.Product;
 import com.maju_mundur.MajuMundur.entity.User;
 import com.maju_mundur.MajuMundur.exception.OurException;
+import com.maju_mundur.MajuMundur.repository.ImageRepository;
 import com.maju_mundur.MajuMundur.repository.MerchantRepository;
 import com.maju_mundur.MajuMundur.repository.ProductRepository;
+import com.maju_mundur.MajuMundur.service.FileStorageService;
 import com.maju_mundur.MajuMundur.service.ProductService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +28,8 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MerchantRepository merchantRepository;
+    private final FileStorageService fileStorageService;
+    private final ImageRepository imageRepository;
 
     private ProductResponse mapToResponse(Product product) {
         return ProductResponse.builder()
@@ -121,5 +130,47 @@ public class ProductServiceImpl implements ProductService {
         } else {
             return "Anda tidak memiliki akses untuk menghapus produk ini";
         }
+    }
+
+    @Transactional
+    @Override
+    public ImageResponse uploadPoster(MultipartFile file, String productId){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new OurException("Product tidak ditemukan"));
+
+
+        String fileName = fileStorageService.storeFile(file, loggedInUser.getId());
+//        List<Image> oldPoster = product.getProductPoster();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("api/product")
+                .path("/poster/")
+                .path(fileName)
+                .toUriString();
+
+        Image poster = Image.builder()
+                .name(fileName)
+                .contentType(file.getContentType())
+                .size(file.getSize())
+                .path(fileDownloadUri)
+                .product(product)
+                .build();
+
+        imageRepository.save(poster);
+        product.getProductPoster().add(poster);
+        productRepository.save(product);
+
+        return ImageResponse.builder()
+                .name(poster.getName())
+                .size(file.getSize())
+                .contentType(poster.getContentType())
+                .path(poster.getPath())
+                .build();
+    }
+
+    @Transactional
+    @Override
+    public void deletePoster(String posterId) {
+        Image poster = imageRepository.findById(posterId).orElseThrow(() -> new OurException("Poster tidak ditemukan"));
+        imageRepository.delete(poster);
     }
 }
