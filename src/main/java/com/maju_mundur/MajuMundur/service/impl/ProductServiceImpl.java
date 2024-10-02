@@ -173,4 +173,6 @@ public class ProductServiceImpl implements ProductService {
         Image poster = imageRepository.findById(posterId).orElseThrow(() -> new OurException("Poster tidak ditemukan"));
         imageRepository.delete(poster);
     }
+
+
 }

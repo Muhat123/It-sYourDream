@@ -7,7 +7,10 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +21,12 @@ import java.util.UUID;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
     private final Path storageLocation;
+
+
+    static {
+        ImageIO.scanForPlugins();
+    }
+
 
     public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
         this.storageLocation = Paths.get(fileStorageProperties.getUpLoadDir())
@@ -49,18 +58,32 @@ public class FileStorageServiceImpl implements FileStorageService {
 
 
     @Override
-    public byte[] loadImage(String fileName){
-        try{
+    public byte[] loadImage(String fileName) {
+        try {
             Path filePath = storageLocation.resolve(fileName).normalize();
+
+            String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+            File imageFile = filePath.toFile();
+            if ("webp".equalsIgnoreCase(extension)) {
+                BufferedImage bufferedImage = ImageIO.read(imageFile);
+
+                File convertedFile = new File(imageFile.getParent(), "converted_" + fileName.replace(".webp", ".jpg"));
+                ImageIO.write(bufferedImage, "jpg", convertedFile);
+
+                filePath = convertedFile.toPath();
+            }
+
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Thumbnails.of(filePath.toFile())
-                    .size(1000,1000)
+                    .size(1000, 1000)
                     .keepAspectRatio(true)
                     .outputFormat("jpg")
                     .toOutputStream(outputStream);
+
             return outputStream.toByteArray();
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 }
