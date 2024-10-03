@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,14 @@ public class ProductServiceImpl implements ProductService {
     private final ImageRepository imageRepository;
 
     private ProductResponse mapToResponse(Product product) {
+        List<ImageResponse> imageResponses = product.getProductPoster().stream()
+                .map(image -> ImageResponse.builder()
+                        .name(image.getName())
+                        .size(image.getSize())
+                        .contentType(image.getContentType())
+                        .path(image.getPath())
+                        .build())
+                .toList();
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -39,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .stock(product.getQuantity())
                 .merchantId(product.getMerchant().getId())
+                .productPoster(imageResponses)
                 .build();
     }
 

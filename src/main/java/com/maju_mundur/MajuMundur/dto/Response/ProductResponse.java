@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class ProductResponse {
     private Integer stock;
     private String description;
     private String merchantId;
+    private List<ImageResponse> productPoster;
 }
