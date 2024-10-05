@@ -52,6 +52,18 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    private ProductResponse mapToResponseWithoutPoster(Product product) {
+
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .stock(product.getQuantity())
+                .merchantId(product.getMerchant().getId())
+                .build();
+    }
+
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -65,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
                 .merchant(merchant)
                 .build();
         Product savedProduct = productRepository.save(product);
-        return mapToResponse(savedProduct);
+        return mapToResponseWithoutPoster(savedProduct);
     }
 
     @Override
@@ -123,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
         product.setMerchant(merchant);
 
         Product updatedProduct = productRepository.save(product);
-        return mapToResponse(updatedProduct);
+        return mapToResponseWithoutPoster(updatedProduct);
 
     }
 
